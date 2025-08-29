@@ -449,6 +449,8 @@ graph.append_env('CFLAGS', '-Wno-nullability-extension')
 # Automatically requiring negative capabilities breaks analysis of reentrant
 # locks, like the preemption count.
 graph.append_env('CFLAGS', '-Wno-thread-safety-negative')
+# Clang 18's -Wunsafe-buffer-usage considers raw pointers an error, but this is C, not C++...
+graph.append_env('CFLAGS', '-Wno-unsafe-buffer-usage')
 
 # We depend on section garbage collection; otherwise there are undefined and
 # unused symbols that will be pulled in and cause link failures

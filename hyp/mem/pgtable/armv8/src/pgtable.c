@@ -3398,11 +3398,13 @@ pgtable_handle_boot_cold_init(void)
 	hyp_pgtable.bottom_control.granule_shift = page_shift;
 	hyp_pgtable.bottom_control.address_bits	 = HYP_ASPACE_LOW_BITS;
 	bottom_msb				 = HYP_ASPACE_LOW_BITS - 1U;
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wtautological-value-range-compare"
 	assert((HYP_ASPACE_LOW_BITS != level_conf[0].msb + 1) ||
 	       (HYP_ASPACE_LOW_BITS != level_conf[1].msb + 1) ||
 	       (HYP_ASPACE_LOW_BITS != level_conf[2].msb + 1) ||
 	       (HYP_ASPACE_LOW_BITS != level_conf[3].msb + 1));
+#pragma clang diagnostic pop
 
 	get_start_level_info_ret_t bottom_info =
 		get_start_level_info(level_conf, bottom_msb, false);
@@ -3419,10 +3421,13 @@ pgtable_handle_boot_cold_init(void)
 	top_msb				      = HYP_ASPACE_HIGH_BITS - 1U;
 	// FIXME: change to static check (with constant?)??
 	// Might be better to use hyp_pgtable.top_control.address_bits
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wtautological-value-range-compare"
 	assert((HYP_ASPACE_HIGH_BITS != level_conf[0].msb + 1) ||
 	       (HYP_ASPACE_HIGH_BITS != level_conf[1].msb + 1) ||
 	       (HYP_ASPACE_HIGH_BITS != level_conf[2].msb + 1) ||
 	       (HYP_ASPACE_HIGH_BITS != level_conf[3].msb + 1));
+#pragma clang diagnostic pop
 
 	// update level info based on virtual_address bits
 	get_start_level_info_ret_t top_info =
